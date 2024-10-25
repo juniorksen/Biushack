@@ -1,0 +1,121 @@
+---
+import Sidebar from '../layouts/Sidebar.astro';
+import Navbar from '../layouts/Navbar.astro';
+---
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criptografía</title>
+    <link rel="stylesheet" type="text/css" href="ruta/al/archivo.css">
+</head>
+
+<style>
+    ul.custom-list li::marker {
+            color: #22c55e; /* Color verde de Tailwind (green-500) */
+        }
+</style>
+
+
+<body>
+<div class="flex h-screen bg-gray-100">
+    
+<!-- Barra Lateral -->
+<Sidebar />
+
+<!-- Contenido Principal -->
+<div class="flex flex-col flex-1 overflow-y-auto">
+    <!-- Barra de Navegación (Navbar) -->
+    <Navbar />
+    
+    <div class="relative p-4">
+        <div class="max-w-6xl mx-auto">
+            <div
+                class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                <div class="">
+                    
+                    <a  class="text-indigo-600 hover:text-gray-700 transition duration-500 ease-in-out text-sm">
+                        Lección
+                    </a>
+                    <h1  class="text-gray-900 font-bold text-4xl"> Riesgos de conectarse a una red wifi pública y cómo puedes evitarlos </h1>
+                    <div class="py-5 text-sm font-regular text-gray-900 flex"> </div>
+                    <hr>
+
+                    <p class="text-base leading-8 my-5">
+                        Navega en internet con redes wifi públicas sin exponerte a riesgos innecesarios
+                    </p>
+
+                    <p class="text-base leading-8 my-5">
+                        ¿A quién no le gusta disfrutar de las ventajas de las conexiones de internet gratuitas cuando nos conectamos con nuestro portátil o smartphone a las redes wifi de restaurantes, hoteles, tiendas o aeropuertos sin pagar un céntimo? Lo que no siempre se nos pasa por la cabeza mientras comprobamos nuestros emails, vemos una película o subimos fotos de nuestras vacaciones a nuestras redes sociales, son los muchos riesgos y peligros a los que nos exponemos. Hoy te contamos cuáles son y cómo puedes protegerte eficazmente de ellos.
+                    </p>
+
+                    <h1  class="text-gray-900 font-bold text-4xl"> 
+                        Riesgos de conectarse a una red wifi abierta
+                    </h1>
+
+
+                    <p class="text-base leading-8 my-5">
+                        Si te preguntas qué tipo de red estás utilizando cuando te conectas a una wifi pública, debes saber que a diferencia de las redes de wifi que puedas tener en casa o en tu trabajo, las redes abiertas no suelen contar con elementos de protección como contraseñas, por lo que cualquiera puede conectarse a ellas de forma prácticamente anónima. 
+                    </p>
+
+                    <p class="text-base leading-8 my-5">
+                        Esta falta de seguridad, unida a la gran creatividad de los cibercriminales para inventar nuevas estrategias con las que obtener información o dinero, ha hecho que la variedad de estafas a las que podemos enfrentarnos cuando navegamos con una red wifi gratuita se hayan multiplicado en los últimos años. A continuación te dejamos una lista de las más comunes: 
+                    </p>
+
+                    <h3 class="text-2xl font-bold my-5">
+                        Red wifi falsa
+                    </h3>
+
+                    <p class="text-base leading-8 my-5">
+                        Una de las herramientas más utilizadas por los piratas informáticos para obtener información sensible de sus víctimas consiste en crear una red wifi con el nombre del establecimiento donde se recibe la señal, como un bar o restaurante por ejemplo, para así poder acceder al dispositivo de los incautos que se conecten a su red. Por eso es particularmente recomendable no conectarse a tu banco online desde una red wifi pública.
+                    </p>
+
+                    <h3 class="text-2xl font-bold my-5">
+                        Man in the Middle
+                    </h3>
+
+                    <p class="text-base leading-8 my-5">
+                        Con este tipo de ciberataque, también conocido como el intermediario, el hacker logra interceptar la transmisión de datos entre la víctima y la página web que esté visitando. Esto le permite acceder a una gran cantidad de información sin apenas arriesgarse a ser detectado. 
+                    </p>
+
+                    <h3 class="text-2xl font-bold my-5">
+                        Malware
+                    </h3>
+
+                    <p class="text-base leading-8 my-5">
+                        Gracias a la anonimidad que proporcionan las redes abiertas de wifi, los hackers pueden acceder a los dispositivos como smartphones y portátiles para infectarlos con softwares maliciosos y así dañarlos o robar información sensible de sus propietarios. 
+                    </p>
+
+                    <h3 class="text-2xl font-bold my-5">
+                        Ramsonware
+                    </h3>
+
+                    <p class="text-base leading-8 my-5">
+                        Con este tipo de malware, los ciberdelincuentes bloquean funciones del ordenador de la víctima como el teclado o el ratón o cifran archivos importantes como imágenes, información bancaria o documentos importantes para luego reclamar una recompensa para recuperar el control del ordenador. 
+                    </p>
+
+                    <h3 class="text-2xl font-bold my-5">
+                        Robo de datos
+                    </h3>
+
+                    <p class="text-base leading-8 my-5">
+                        Uno de los riesgos más habituales a la hora de conectarse a una red wifi pública es el clásico robo de la información contenida en los archivos de nuestro ordenador portátil o smartphone. Los datos como nuestra información personal, profesional o contraseñas pueden entonces acabar cayendo en malas manos.
+                    </p>
+
+
+                    <h1  class="text-gray-900 font-bold text-4xl"> 
+                        Cómo protegerse en una red wifi pública
+                    </h1>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

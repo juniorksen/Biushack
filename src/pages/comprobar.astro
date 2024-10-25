@@ -1,0 +1,56 @@
+---
+
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = 'passar'; 
+
+interface DecodedUser {
+    id: number;
+    username: string;
+    email: string; 
+}
+
+// Función para validar el token
+const getUserFromToken = (token: string | undefined): DecodedUser | null => {
+if (!token) return null; 
+try {
+    const decoded = jwt.verify(token, JWT_SECRET) as DecodedUser; 
+    return decoded; 
+} catch (error) {
+    console.error('Token inválido o expirado:', error);
+    return null; 
+}
+};
+
+// Obtiene el token de las cookies
+const cookieToken = Astro.cookies.get('token'); 
+const token: string | undefined = cookieToken ? cookieToken.value : undefined; 
+let username: string = 'invitado'; 
+let email: string | undefined; 
+
+if (token) {
+const user = getUserFromToken(token);
+console.log(user); 
+username = user?.username || 'invitado'; 
+email = user?.email; 
+}
+
+
+---
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenido</title>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="bg-white p-6 rounded-lg shadow-md w-96 text-center">
+        <h1 class="text-2xl font-bold mb-4">¡Hola, {username}!</h1>
+        {email && <h2 class="text-lg mb-4">Tu correo es: {email}!</h2>} <!-- Muestra el correo solo si existe -->
+
+        {username !== 'invitado' && (
+            <p class="mt-4">Estamos contentos de verte de nuevo, {username}.</p>
+        )}
+    </div>
+</body>
+</html>

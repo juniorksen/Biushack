@@ -1,0 +1,137 @@
+<div class="terminal p-5 rounded-lg font-mono shadow-lg">
+    <div class="terminal-header bg-zinc-700 text-white p-2 rounded-t-lg flex items-center">
+        <span class="text-red-500 text-5xl leading-[0px] align-middle -mt-2">•</span>
+        <span class="text-yellow-500 text-5xl leading-[0px] align-middle -mt-2 ml-1">&bull;</span>
+        <span class="text-green-500 text-5xl leading-[0px] align-middle -mt-2 ml-1">&bull;</span>
+        <span class="ml-4 align-baseline">bash </span>
+    </div>
+    <div id="output-terminal2" class="pl-4 pt-2 bg-gray-900 max-h-[500px] overflow-y-auto">
+        <p class="text-gray-500">Root@kali</p>
+    </div>
+    <div id="terminal-input-container2" class="input flex pl-4 bg-gray-900 pb-4 rounded-b-lg items-center">
+        <span class="text-green-500">➝</span>
+        <span class="text-sky-300 ml-2">~</span>
+        <input type="text" id="terminal-input2" class="bg-transparent border-b border-gray-600 outline-none ring-0 focus:ring-0 text-amber-400 w-full placeholder-gray-500" placeholder="...">
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const outputTerminal2 = document.getElementById('output-terminal2');
+        const terminalInput2 = document.getElementById('terminal-input2');
+        let isWaitingForTarget = false;
+
+        terminalInput2.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); 
+                const input = terminalInput2.value.trim();
+
+                if (input === '') {
+                    return; 
+                }
+
+                function typeTextInBlocks(text, container, blockSize = 50, delay = 200) {
+                    let index = 0;
+
+                    function printBlock() {
+                        if (index < text.length) {
+                            container.innerHTML += text.slice(index, index + blockSize);
+                            index += blockSize;
+                            setTimeout(printBlock, delay);
+                            window.scrollTo(0, document.body.scrollHeight);
+                        }
+                    }
+                    printBlock();
+                }
+
+                // Agregar verificación inicial para cd wifite2
+                if (!isWaitingForTarget && input !== './Wifite.py') {
+                    const errorText = "[!] Error: Invalid target.";
+                    const errorContainer = document.createElement('div');
+                    errorContainer.classList.add('text-red-500', 'whitespace-pre');
+                    outputTerminal2.appendChild(errorContainer);
+                    typeTextInBlocks(errorText, errorContainer, 50, 100);
+                    terminalInput2.value = '';
+                    return;
+                }
+
+                if (input === './Wifite.py') {
+                    outputTerminal2.innerHTML += `<div class="flex"><span class="text-green-500">➝</span><span class="bg-transparent border-none outline-none w-full text-amber-400 ml-2">${input}</span></div>`;
+
+                    const antennaText = `
+                    WiFite v2.00
+                    Automated Wireless Auditor
+
+                    [+] option: targeting ESSID ShittyWEP
+                    [+] looking for wireless interfaces 
+                    [+] using interface wlan0mon which is already in monitor mode
+
+                    [+] Scanning Found 0 target(s), 0 client(s).  Ctrl+C when ready 
+                    [+] Found target A4:2B:8C:16:6B:3A.... success 
+
+                    [+] (1/1) starting attacks against A6:2B:8C:16:6B:3A (ShittyGuest)
+                    [*] ShittyGuest (A6:2B:8C:16:6B:3A @ 69db) WEP replay attack: 
+
+
+
+
+                    `;
+
+                    terminalInput2.value = ''; 
+                    const container = document.createElement('div');
+                    container.classList.add('text-green-500', 'whitespace-pre');
+                    outputTerminal2.appendChild(container);
+                    typeTextInBlocks(antennaText, container, 50, 100);
+
+                    isWaitingForTarget = true; 
+
+                    // Aquí comenzamos la simulación de la carga
+                    setTimeout(() => {
+                        let currentValue = 0;
+                        const targetValue = 150085;
+
+                        function getRandomIncrement(min, max) {
+                            return Math.floor(Math.random() * (max - min + 1)) + min; // Rango aleatorio
+                        }
+
+                        function updateProgress() {
+                            if (currentValue <= targetValue) {
+                                // Cambia el texto en la misma línea
+                                const progressText = `[*] ShittyGuest (A6:2B:8C:16:6B:3A @ 69db) WEP replay attack: ${currentValue}` ;
+                                container.innerText = progressText; // Cambia innerText para actualizar la línea
+
+                                // Genera un incremento aleatorio entre 100 y 2000
+                                const increment = getRandomIncrement(100, 2000);
+                                currentValue += increment;
+                                
+                                setTimeout(updateProgress, 100); // Cambia la velocidad de la carga aquí
+                            } else {
+                
+                                     // Muestra el texto final cuando el ataque se complete
+                                const finalText = `
+                                [+] replay WEP attack sucessful
+                                [+] (1/1) starting attacks against A4:2B: 8C: 16 : 6B: 3A (ShittyWEP) 
+                                    
+                                [+] ESSID: ShittyNEP
+                                [+] BSSID: A4: 2B: 8C: 16:6B:3A
+                                [+] Encryption: WEP
+                                [+] Hex Key: 61:61:61:61:61
+                                [+] ASC11 Key: aaaaa
+                                [+] Saved crack results to cracked.txt (19 total)
+                                `;
+                            container.innerText = finalText; // Cambia el texto final
+
+                            }
+                        }
+
+                        updateProgress();
+                    }, 2000); // Retardo antes de iniciar la carga
+                    return;
+                } 
+
+                outputTerminal2.innerHTML += `<div class="flex"><span class="text-green-500">➝</span><span class="bg-transparent border-none outline-none w-full text-amber-400 ml-2">${input}</span></div>`;
+                terminalInput2.value = ''; 
+            }
+        });
+    });
+</script>

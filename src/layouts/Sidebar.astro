@@ -1,0 +1,80 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<div class="hidden md:flex flex-col w-64 h-screen bg-gray-900">
+    <div class="flex items-center justify-center h-24 bg-gray-900">
+        <span class="text-white font-bold uppercase">BiuSchool</span>
+    </div>
+    <div class="flex flex-col flex-1 overflow-y-auto">
+        <nav class="flex-1 px-2 py-4 bg-gray-800">
+            
+            <a 
+            href="/" 
+            class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/' ? 'bg-gray-700' : ''}`}
+        >
+        La invitación
+        </a>
+            <a 
+                href="/dashboard" 
+                class={`flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/dashboard' ? 'bg-gray-700' : ''}`}
+            >   
+            La búsqueda del Santo Grial
+            </a>
+            <a 
+                href="/messages" 
+                class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/messages' ? 'bg-gray-700' : ''}`}
+            >
+                Ataques BeEF
+            </a>
+
+            <a 
+            href="/qr" 
+            class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/qr' ? 'bg-gray-700' : ''}`}
+        >
+            QR
+        </a>
+
+        
+        <a 
+        href="/gemelos" 
+        class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/gemelos' ? 'bg-gray-700' : ''}`}
+        >
+            gemelos
+        </a>
+
+
+        <a 
+        href="/DSNIFF" 
+        class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/DSNIFF' ? 'bg-gray-700' : ''}`}
+        >
+        DSNIFF
+        </a>
+
+
+        <a 
+        href="/Wifite2" 
+        class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/Wifite2' ? 'bg-gray-700' : ''}`}
+        >
+        Wifite2
+        </a>
+
+
+        <a 
+        href="/torrent" 
+        class={`flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700 ${currentPath === '/torrent' ? 'bg-gray-700' : ''}`}
+        >
+        Torrent
+        </a>
+
+
+
+        
+
+
+        
+
+
+        </nav>
+    </div>
+</div>

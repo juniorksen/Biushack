@@ -1,0 +1,161 @@
+---
+import Sidebar from '../layouts/Sidebar.astro';
+import Navbar from '../layouts/Navbar.astro';
+
+import Terminal1Wifite2 from '../components/Terminal1Wifite2.astro'; 
+import Terminal2Wifite2 from '../components/Terminal2Wifite2.astro'; 
+---
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criptografía</title>
+    <link rel="stylesheet" type="text/css" href="ruta/al/archivo.css">
+</head>
+
+<style>
+    ul.custom-list li::marker {
+            color: #22c55e; /* Color verde de Tailwind (green-500) */
+        }
+</style>
+
+
+<body>
+    <div class="flex h-screen bg-gray-100">
+        <!-- Barra Lateral -->
+        <Sidebar />
+    
+        <!-- Contenido Principal -->
+        <div class="flex flex-col flex-1 overflow-y-auto">
+            <!-- Barra de Navegación (Navbar) -->
+            <Navbar />
+            
+            <div class="relative p-4">
+                <div class="max-w-6xl mx-auto">
+                    <div class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                        <div>
+                            
+                            <a  class="text-indigo-600 hover:text-gray-700 transition duration-500 ease-in-out text-sm">
+                                Lección
+                            </a>
+                            <h1 class="text-gray-900 font-bold text-4xl"> Wifite 2 </h1>
+                            <div class="py-5 text-sm font-regular text-gray-900 flex"> </div>
+                            <hr>
+                            <p class="text-base leading-8 my-5">
+                                Una reescritura completa de wifite, un script de Python para auditar redes inalámbricas.
+                            </p>
+    
+                    <h1  class="text-gray-900 font-bold text-4xl"> ¿Qué hay de nuevo? </h1>
+
+
+                    
+                    <ul class="custom-list list-disc list-inside text-base leading-8 my-5 pl-8">
+                        <li class="text-black">Muchos archivos en lugar de "un gran script". </li>
+                        <li class="text-black"> Gestión de procesos más limpia: ya no deja procesos ejecutándose en segundo plano. </li>
+                        <li class="text-black"> UX: Los puntos de acceso de destino se actualizan cada segundo en lugar de cada 5 segundos. </li>
+                        <li class="text-black"> UX: Muestra el nivel de potencia en tiempo real (en db) del objetivo atacado actualmente. </li>
+                    </ul>
+
+
+                    <h1  class="text-gray-900 font-bold text-4xl"> ¿Qué no es nuevo? </h1>
+
+                    <ul class="custom-list list-disc list-inside text-base leading-8 my-5 pl-8">
+                        <li class="text-black">Compatibilidad con versiones anteriores de los argumentos del wifite original. </li>
+                        <li class="text-black"> La misma interfaz basada en texto que todos conocen y adoran. </li>
+                    </ul>
+                    
+                    <h1  class="text-gray-900 font-bold text-4xl">
+                        Lista completa de funciones
+                    </h1>
+
+
+                    <ul class="custom-list list-disc list-inside text-base leading-8 my-5 pl-8">
+                        <li class="text-black"> Ataque de polvo de hadas del desgarrador (--pixie)</li>
+                        <li class="text-black"> Ataque PIN WPS de Reaver (--reaver)</li>
+                        <li class="text-black"> Captura de protocolo de enlace WPA (--no-reaver) </li>
+                        <li class="text-black">  Valida los apretones de manos contra 'pyrit', 'tshark', 'cowpatty' y 'aircrack-ng' </li>
+                        <li class="text-black"> Varios ataques WEP (reproducción, chopchop, fragmentación, etc.) </li>
+                        <li class="text-black"> Compatibilidad con 5 GHz para tarjetas inalámbricas que admitan 5 GHz (use la opción -5) </li>
+                        <li class="text-black"> Almacena contraseñas descifradas y protocolos de enlace en el directorio actual, con metadatos sobre el punto de acceso (a través del comando --cracked). </li>
+                        <li class="text-black"> Descubre los puntos de acceso ocultos cuando el canal está fijo (use la opción -c 'channel') </li>
+                        <li class="text-black"> Proporciona comandos para descifrar protocolos de enlace WPA capturados (a través del comando --crack) </li>
+                    </ul>
+
+                    <h1  class="text-gray-900 font-bold text-4xl"> Soporte </h1>
+                    
+                    <p class="text-base leading-8 my-5"> Wifite2 is designed entirely for the latest version of Kali Rolling release (tested on Kali 2016.2, updated May 2017).
+                    
+
+
+                    <p class="text-base leading-8 my-5"> 
+                        Esto significa que solo se admiten las últimas versiones de estos programas: Aircrack-ng suite, wash, reaver, tshark, cowpatty.
+                    </p>
+
+                    <p class="text-base leading-8 my-5"> 
+                        Otras distribuciones de pruebas de penetración (como BackBox) tienen versiones obsoletas de estas suites; estas distribuciones no reciben soporte.
+                    </p>
+
+                    <h1  class="text-gray-900 font-bold text-4xl">
+                        Installing & Running
+                    </h1>
+
+
+                    <div class="bg-black rounded-md p-4 max-w-md mx-auto mt-20">
+                        <div class="flex items-center mb-2">
+                            <div class="h-3 w-3 rounded-full mr-2 bg-red-500"></div>
+                            <div class="h-3 w-3 rounded-full mr-2 bg-yellow-500"></div>
+                            <div class="h-3 w-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="text-white">
+                            <span class="font-bold">user@computer:</span><span class="ml-1"></span>
+                            
+                        </div>
+                        <div class="text-gray-300 pl-5">
+                            git clone https://github.com/derv82/wifite2.git
+                        </div>
+                        <div class="text-white">
+                            <span class="font-bold">user@computer:</span><span class="ml-1"></span>
+                        </div>
+                        <div class="text-gray-300 pl-5">
+                            cd wifite2
+                        </div>
+                        <div class="text-white">
+                            <span class="font-bold">user@computer:</span><span class="ml-1"></span>
+                        </div>
+                        <div class="text-gray-300 pl-5">
+                            ./Wifite.py
+                        </div>
+                    </div>
+
+
+                    <h1  class="text-gray-900 font-bold text-4xl">
+                        Prácticas
+                    </h1>
+
+
+                    <p class="text-base leading-8 my-5"> 
+                        Desbloqueo y descifrado de un punto de acceso oculto (a través del ataque WPA Handshake):
+                    </p>
+
+
+                    <Terminal1Wifite2 />
+
+                    <p class="text-base leading-8 my-5"> 
+                        Cómo descifrar una contraseña WEP débil (mediante el ataque WEP Replay):
+                    </p>
+
+
+                    <Terminal2Wifite2 />
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

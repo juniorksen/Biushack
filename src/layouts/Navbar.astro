@@ -1,0 +1,83 @@
+---
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = 'passar';
+
+// Define la estructura de los datos de usuario decodificados
+interface DecodedUser {
+id: number;
+username: string;
+email: string;
+profile_picture_url: string;
+cover_photo_url: string;
+}
+
+// Función para validar el token y extraer el usuario
+const getUserFromToken = (token: string | undefined): DecodedUser | null => {
+if (!token) return null;
+try {
+    const decoded = jwt.verify(token, JWT_SECRET) as DecodedUser;
+    return decoded;
+} catch (error) {
+    console.error('Token inválido o expirado:', error);
+    return null;
+}
+};
+
+// Obtiene el token de las cookies
+const cookieToken = Astro.cookies.get('token');
+const token: string | undefined = cookieToken ? cookieToken.value : undefined;
+
+// Variables para almacenar los datos de usuario
+let username: string = 'invitado';
+let email: string | undefined;
+let profile_picture_url: string | undefined;
+let cover_photo_url: string | undefined;
+
+// Si existe un token válido, extrae los datos de usuario
+if (token) {
+const user = getUserFromToken(token);
+if (user) {
+    username = user.username;
+    email = user.email;
+    profile_picture_url = user.profile_picture_url;
+    cover_photo_url = user.cover_photo_url;
+}
+}
+
+---
+
+<header class="lg:px-16 px-4 bg-white flex flex-wrap items-center py-4 shadow-md">
+    <div class="flex-1 flex justify-between items-center">
+        <a href="#" class="text-xl"></a>
+    </div>
+
+    <label for="menu-toggle" class="pointer-cursor md:hidden block">
+        <svg class="fill-current text-gray-900"
+            xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+            <title>menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+        </svg>
+    </label>
+    <input class="hidden" type="checkbox" id="menu-toggle" />
+
+    <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
+        <nav>
+            <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
+                <!-- Contenedor para imagen de perfil y nombre -->
+                <li class="flex items-center space-x-4">
+                    <!-- Enlace a la cuenta -->
+                    <a href="/Account" class="flex items-center space-x-4">
+                        <!-- Imagen de perfil -->
+                        <div class="w-16 h-16 relative border-4 border-white rounded-full overflow-hidden">
+                            <img class="object-cover object-center h-full w-full" src={profile_picture_url} alt="Profile picture" />
+                        </div>
+
+                        <!-- Nombre de usuario -->
+                        <span class="text-lg font-semibold">{username}</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

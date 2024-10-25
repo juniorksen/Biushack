@@ -1,0 +1,151 @@
+<div class="terminal p-5 rounded-lg font-mono shadow-lg">
+    <div class="terminal-header bg-zinc-700 text-white p-2 rounded-t-lg flex items-center">
+        <span class="text-red-500 text-5xl leading-[0px] align-middle -mt-2">•</span>
+        <span class="text-yellow-500 text-5xl leading-[0px] align-middle -mt-2 ml-1">&bull;</span>
+        <span class="text-green-500 text-5xl leading-[0px] align-middle -mt-2 ml-1">&bull;</span>
+        <span class="ml-4 align-baseline">bash </span>
+    </div>
+    <div id="output" class="pl-4 pt-2 bg-gray-900 max-h-[500px] overflow-y-auto">
+        <p class="text-gray-500">Root@kali</p>
+    </div>
+    <div id="terminal-input-container" class="input flex pl-4 bg-gray-900 pb-4 rounded-b-lg items-center">
+        <span class="text-green-500">➝</span>
+        <span class="text-sky-300 ml-2">~</span>
+        <input type="text" id="terminal-input" class="bg-transparent border-b border-gray-600 outline-none ring-0 focus:ring-0 text-amber-400 w-full placeholder-gray-500" placeholder="...">
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const output = document.getElementById('output');
+        const terminalInput = document.getElementById('terminal-input');
+        const placeholderSpan = document.getElementById('placeholder');
+
+        let isWaitingForTarget = false; // Define la variable aquí
+
+        terminalInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Evitar el comportamiento predeterminado
+                const input = terminalInput.value.trim();
+
+                if (input === '') {
+                    return; // Evitar entradas vacías               
+                }
+
+                // Función para simular la escritura en bloques
+                function typeTextInBlocks(text, container, blockSize = 50, delay = 200) {
+                    let index = 0;
+
+                    function printBlock() {
+                        if (index < text.length) {
+                            // Agrega un bloque del tamaño especificado
+                            container.innerHTML += text.slice(index, index + blockSize);
+                            index += blockSize;
+                            setTimeout(printBlock, delay); // Retraso entre cada bloque
+
+                            // Desplazar el documento hacia abajo
+                            window.scrollTo(0, document.body.scrollHeight);
+                        }
+                    }
+                    printBlock();
+                }
+
+                // Agregar verificación inicial para cd wifite2
+                if (!isWaitingForTarget && input !== 'cd wifite2') {
+                    const errorText = "[!] Error: Invalid target.";
+                    const errorContainer = document.createElement('div');
+                    errorContainer.classList.add('text-red-500', 'whitespace-pre');
+                    output.appendChild(errorContainer);
+                    typeTextInBlocks(errorText, errorContainer, 50, 100); // Mostrar error
+                    terminalInput.value = ''; // Limpiar el input
+                    return; // No procesar más comandos
+                }
+
+                if (input === 'cd wifite2') {
+                    output.innerHTML += `<div class="flex"><span class="text-green-500">➝</span><span class="bg-transparent border-none outline-none w-full text-amber-400 ml-2">${input}</span></div>`;
+
+                    // Antena de Wi-Fi ASCII Art
+                    const antennaText = `
+                        __^__                                      __^__
+                       ( ___ )------------------------------------( ___ )
+                        | / |                                       | / |
+                        | / |      Connected                        | / |
+                        |___|                                       |___|
+                       (_____)-------------------------------------(_____) 
+
+                        WiFite v2.00
+                        Automated Wireless Auditor
+
+                        [+] option: scanning for targets on channel 7
+                        [+] looking for wireless interfaces
+                        [+] using interface wlan0mon which is already in monitor mode
+
+                        NUM    ESSID             CH ENCR  POWER WPS?  CLIENT
+                        1      ShittyWEP          7  WEP   73db   no  
+                        2      Green House 2G      6  WPA   71db   yes  
+                        3      ShittyGuest         7  WPA   69db   no   
+                        4      (38:D5:47:BC:D3:E8) 7  WPA   60db   no  
+
+                        [+] select target(s) (1-4) separated by commas, dashes or all: 
+
+                        [*] (1/1) starting attacks against A6:2B:8C:16:6B:3A (ShittyGuest)
+                        [*] ShittyGuest (A6:2B:8C:16:6B:3A @ 69db) WPA Handshake capture: Waiting for target to appear...
+                    `;
+
+                    // Limpia el input
+                    terminalInput.value = ''; 
+
+                    // Crea un nuevo contenedor para el texto
+                    const container = document.createElement('div');
+                    container.classList.add('text-green-500', 'whitespace-pre'); // Clases Tailwind
+                    output.appendChild(container);
+
+                    // Llamada a la función para imprimir en bloques de texto
+                    typeTextInBlocks(antennaText, container, 50, 100); // Tamaño del bloque y delay ajustables
+
+                    // Cambia el modo a "esperando la selección de target"
+                    isWaitingForTarget = true; 
+                    return;
+                } 
+
+                // Si estamos en el modo de selección de target
+                if (isWaitingForTarget) {
+                    if (input === '3') {
+                        const crackedText = `
+                            [+] successfully captured handshake
+                            [+] cracking handshake using aircrack-ng with custom.txt wordlist
+                            [+] successfully cracked PSK
+                            Access Point Name: ShittyGuest
+                            PSK (password): password
+                        `;
+
+                        // Agregar el texto del resultado
+                        const resultContainer = document.createElement('div');
+                        resultContainer.classList.add('text-green-500', 'whitespace-pre');
+                        output.appendChild(resultContainer);
+                        typeTextInBlocks(crackedText, resultContainer, 50, 100); // Mostrar resultado
+
+                        // Regresar a modo normal
+                        isWaitingForTarget = false; 
+                    } else {
+                        // Si no se selecciona el target "3", mostrar un error
+                        const errorText = "[!] Error: Invalid target.";
+                        const errorContainer = document.createElement('div');
+                        errorContainer.classList.add('text-red-500', 'whitespace-pre');
+                        output.appendChild(errorContainer);
+                        typeTextInBlocks(errorText, errorContainer, 50, 100); // Mostrar error
+                    }
+
+                    // Limpia el input
+                    terminalInput.value = ''; 
+                    return; // Asegúrate de no seguir procesando otros comandos
+                }
+
+                // Procesar otros comandos si no estamos esperando
+                output.innerHTML += `<div class="flex"><span class="text-green-500">➝</span><span class="bg-transparent border-none outline-none w-full text-amber-400 ml-2">${input}</span></div>`;
+                terminalInput.value = ''; // Limpiar el input
+            }
+        });
+    });
+</script>

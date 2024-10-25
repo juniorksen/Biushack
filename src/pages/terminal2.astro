@@ -1,0 +1,82 @@
+---
+import { Terminal as XTerm } from 'xterm';
+import 'xterm/css/xterm.css'; // Importa los estilos de Xterm
+---
+
+<div id="terminal" class="h-64 w-full"></div>
+
+<script>
+  import { Terminal as XTerm } from 'xterm';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const terminal = new XTerm();
+    const terminalElement = document.getElementById('terminal');
+
+    if (terminalElement) {
+      terminal.open(terminalElement);
+      terminal.write('Welcome to Xterm.js!\r\n');
+      terminal.write('Type "help" for a list of commands.\r\n');
+
+      // Almacena el historial de comandos
+      const history = [];
+      let historyIndex = -1;
+
+      // Capturar la entrada del usuario
+      terminal.onData((data) => {
+        const char = data.charCodeAt(0);
+
+        // Maneja las teclas de retroceso y enter
+        if (char === 13) { // Enter
+          const command = terminal.getBuffer().active.getLine(terminal.getBuffer().active.cursorY).translateToString();
+          history.push(command);
+          historyIndex = history.length;
+
+          processCommand(command);
+          terminal.write('\r\n'); // Nueva línea
+        } else if (char === 8) { // Retroceso
+          terminal.write('\b \b'); // Borra el carácter
+        } else if (char === 38 && data === '\x1B[A') { // Flecha arriba
+          if (historyIndex > 0) {
+            historyIndex--;
+            terminal.write('\r' + history[historyIndex]); // Muestra el comando anterior
+          }
+        } else if (char === 40 && data === '\x1B[B') { // Flecha abajo
+          if (historyIndex < history.length - 1) {
+            historyIndex++;
+            terminal.write('\r' + history[historyIndex]); // Muestra el siguiente comando
+          } else {
+            historyIndex = history.length;
+            terminal.write('\r'); // Limpia la línea
+          }
+        } else {
+          terminal.write(data); // Escribe el carácter
+        }
+      });
+
+      // Procesar comandos
+      function processCommand(command) {
+        switch (command.trim()) {
+          case 'help':
+            terminal.write('Available commands: help, clear, echo [text]\r\n');
+            break;
+          case 'clear':
+            terminal.clear(); // Limpia la terminal
+            break;
+          default:
+            if (command.startsWith('echo ')) {
+              terminal.write(command.slice(5) + '\r\n'); // Muestra el texto después de "echo "
+            } else {
+              terminal.write(`Command not found: ${command}\r\n`);
+            }
+        }
+      }
+    }
+  });
+</script>
+
+<style>
+  #terminal {
+    background-color: black;
+    color: white;
+  }
+</style>

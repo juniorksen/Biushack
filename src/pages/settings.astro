@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<div class="terminal p-5 rounded-lg font-mono">
+    <div class="terminal-header bg-zinc-700 text-white p-2 rounded-t-lg flex items-center">
+        <span class="text-red-500 text-5xl leading-[0px] align-middle -mt-2">•</span>
+        <span class="text-yellow-500 text-5xl leading-[0px] align-middle -mt-2 ml-1">&bull;</span>
+        <span class="text-green-500 text-5xl leading-[0px] align-middle -mt-2 ml-1">&bull;</span>
+        <span class="ml-4 align-baseline">authentication --- bash - zsh </span>
+    </div>
+    <div id="output" class="pl-4 pt-2 bg-gray-900 max-h-[500px] overflow-auto">
+        <p class="text-gray-500">You need to authenticate to continue!</p>
+        <p class="text-sky-300">Enter 1 </p>
+        <p class="text-sky-300">Enter 2 </p>
+    </div>
+    <div id="terminal-input-container" class="input flex pl-4 bg-gray-900 pb-4 rounded-b-lg items-center">
+        <span class="text-green-500">➝</span>
+        <span class="text-sky-300 ml-2">~</span>
+        <span id="placeholder" class="ml-2 text-md text-gray-500"></span>
+        <input type="text" id="terminal-input" class="bg-transparent border-none outline-none ring-0 focus:ring-0 text-amber-400 w-full">
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const output = document.getElementById('output');
+        const terminalInput = document.getElementById('terminal-input');
+        const placeholderSpan = document.getElementById('placeholder');
+        const terminalInputContainer = document.getElementById('terminal-input-container')
+        let mode = '';
+        let step = 0;
+        let credentials = {};
+        let isPassword = false
+        let isFinalStep = false
+
+        terminalInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const input = terminalInput.value.trim();
+                if (isPassword) {
+                    output.innerHTML += `<div class="flex"><span class="text-green-500">➝</span><span class="bg-transparent border-none outline-none w-full text-amber-400 ml-2">${'•'.repeat(input.length)}</span></div>`;
+                } else {
+                    output.innerHTML += `<div class="flex"><span class="text-green-500">➝</span><span class="bg-transparent border-none outline-none w-full text-amber-400 ml-2">${input}</span></div>`;
+                }
+                if (isFinalStep) {
+                    terminalInputContainer.classList.add('hidden');
+                    output.classList.add('rounded-b-lg', 'pb-4')
+                }
+                terminalInput.value = '';
+                terminalInput.setAttribute('type', 'text')
+
+                if (!mode) {
+                    if (input === '1') {
+                        mode = 'login';
+                        output.innerHTML += `<p class="text-sky-300">Login selected. Enter email</p>`;
+                        placeholderSpan.innerText = "email:";
+                    } else if (input === '2') {
+                        mode = 'register';
+                        output.innerHTML += `<p class="text-sky-300">Register selected. Enter username</p>`;
+                        placeholderSpan.innerText = "username:";
+                    } else {
+                        output.innerHTML += `<p class="text-red-400">Invalid input. Please press 1 to login or 2 to register.</p>`;
+                    }
+                } else if (mode === 'login') {
+                    handleLogin(input);
+                } else if (mode === 'register') {
+                    handleRegister(input);
+                }
+
+                output.scrollTop = output.scrollHeight;
+            } else if (event.ctrlKey && event.key === 'c') {
+                resetTerminal()
+            }
+        });
+
+        function handleLogin(input) {
+            if (step === 0) {
+                credentials.email = input;
+                output.innerHTML += `<p class="text-sky-300">email saved. Enter password</p>`;
+                placeholderSpan.innerText = "password:";
+                terminalInput.setAttribute('type', 'password')
+                isPassword = true
+                isFinalStep = true
+                step++;
+            } else if (step === 1) {
+                credentials.password = input;
+                output.innerHTML += `<p class="text-sky-300">Password saved</p>`;
+                displayFinalStep();
+            }
+        }
+
+        function handleRegister(input) {
+            if (step === 0) {
+                credentials.username = input;
+                output.innerHTML += `<p class="text-sky-300">Username saved. Enter email</p>`;
+                placeholderSpan.innerText = "email:";
+                step++;
+            } else if (step === 1) {
+                credentials.email = input;
+                output.innerHTML += `<p class="text-sky-300">Email saved. Enter password</p>`;
+                placeholderSpan.innerText = "password:";
+                terminalInput.setAttribute('type', 'password')
+                isPassword = true
+                isFinalStep = true
+                step++;
+            } else if (step === 2) {
+                credentials.password = input;
+                output.innerHTML += `<p class="text-sky-300">Password saved</p>`;
+                displayFinalStep();
+            }
+        }
+
+        function displayFinalStep() {
+            const formattedCredentials = formatCredentials(credentials, mode);
+            output.innerHTML += `<p class="text-gray-500">Credentials entered:</p><pre class="text-gray-500">${formattedCredentials}</pre>`;
+            output.innerHTML += `
+                    <button class="bg-white text-black px-4 py-2 mt-2 rounded ml-2" onclick="handleDiscard()">Reset</button>
+                    <button id="continue-auth" class="bg-indigo-500 text-white px-4 py-2 mt-2 rounded" onclick="handleContinue()">Continue</button>
+                `;
+            placeholderSpan.innerText = ""; // Reset placeholder
+        }
+
+        function formatCredentials(credentials, mode) {
+            let formatted = `email: <span class="text-amber-400">${credentials.email}</span>\n`;
+            if (mode === 'register') {
+                formatted += `username: <span class="text-amber-400">${credentials.username}</span>\n`;
+            }
+            formatted += `password: <span class="text-amber-400">${'•'.repeat(credentials.password.length)}</span>`;
+            return formatted;
+        }
+
+        window.handleContinue = function() {
+            output.innerHTML += `<p>Credentials have been submitted.</p>`;
+            resetTerminal();
+        }
+
+        window.handleDiscard = function() {
+            output.innerHTML += `<p>Credentials have been discarded.</p>`;
+            resetTerminal();
+        }
+
+        function resetTerminal() {
+            mode = '';
+            step = 0;
+            credentials = {};
+            output.innerHTML = `<p class="text-gray-500">You need to authenticate to continue!</p>
+            <p class="text-sky-300"> to login</p>
+            <p class="text-sky-300"> to register</p>`;
+            placeholderSpan.innerText = ""; // Reset placeholder
+            isFinalStep = false
+            isPassword = false
+            terminalInputContainer.classList.remove('hidden');
+            output.classList.remove('rounded-b-lg', 'pb-4')
+        }
+    });
+</script>
+
+
+</body>
+</html>

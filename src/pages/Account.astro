@@ -1,0 +1,97 @@
+---
+import Sidebar from '../layouts/Sidebar.astro';
+import Navbar from '../layouts/Navbar.astro';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = 'passar';
+
+// Define la estructura de los datos de usuario decodificados
+interface DecodedUser {
+  id: number;
+  username: string;
+  email: string;
+  profile_picture_url: string;
+  cover_photo_url: string;
+}
+
+// Función para validar el token y extraer el usuario
+const getUserFromToken = (token: string | undefined): DecodedUser | null => {
+  if (!token) return null;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as DecodedUser;
+    return decoded;
+  } catch (error) {
+    console.error('Token inválido o expirado:', error);
+    return null;
+  }
+};
+
+// Obtiene el token de las cookies
+const cookieToken = Astro.cookies.get('token');
+const token: string | undefined = cookieToken ? cookieToken.value : undefined;
+
+// Variables para almacenar los datos de usuario
+let username: string = 'invitado';
+let email: string | undefined;
+let profile_picture_url: string | undefined;
+let cover_photo_url: string | undefined;
+
+// Si existe un token válido, extrae los datos de usuario
+if (token) {
+  const user = getUserFromToken(token);
+  if (user) {
+    username = user.username;
+    email = user.email;
+    profile_picture_url = user.profile_picture_url;
+    cover_photo_url = user.cover_photo_url;
+  }
+}
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criptografía</title>
+</head>
+<body class="h-screen">
+  <div class="flex h-screen bg-gray-100">
+    <!-- Barra Lateral -->
+    <Sidebar />
+
+    <!-- Contenido Principal -->
+    <div class="flex flex-col flex-1 h-full overflow-y-auto">
+      <!-- Barra de Navegación (Navbar) -->
+      <Navbar />
+
+      <!-- Contenido Principal de Usuario -->
+      <div class="max-w-16xl mx-auto mt-8 bg-white shadow-xl rounded-lg text-gray-900 p-6"> <!-- Aumentar el max-width y reducir el margen superior -->
+        <!-- Imagen de la cabecera usando `cover_photo_url` -->
+        <div class="rounded-t-lg h-60 overflow-hidden"> <!-- Mantener la altura de la imagen de cabecera -->
+            <img class="object-cover object-center h-full w-full" src={cover_photo_url} alt="Cover photo" />
+        </div>
+
+        <!-- Imagen del perfil usando `profile_picture_url` -->
+        <div class="mx-auto w-48 h-48 relative -mt-20 border-4 border-white rounded-full overflow-hidden"> <!-- Mantener el tamaño de la imagen del perfil -->
+            <img class="object-cover object-center h-full w-full" src={profile_picture_url} alt="Profile picture" />
+        </div>
+
+        <!-- Información del usuario -->
+        <div class="text-center mt-4">
+          <h2 class="font-semibold text-2xl">Hola, {username} ¿Cómo estás?</h2> <!-- Aumentar el tamaño de la fuente -->
+          {email && <h2 class="font-semibold text-lg">¡Te recuerdo tu correo: {email}!</h2>} <!-- Aumentar el tamaño de la fuente -->
+        </div>
+
+        <!-- Íconos de Contacto (ejemplo de íconos) -->
+        <ul class="py-6 mt-4 text-gray-700 flex items-center justify-around">
+          <!--  <li class="flex flex-col items-center justify-around">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 30 30">
+                <path d="M 4 5 C 2.9069372 5 2 5.9069372 2 7 L 2 23 C 2 24.093063 2.9069372 25 4 25 L 26 25 C 27.093063 25 28 24.093063 28 23 L 28 7 C 28 5.9069372 27.093063 5 26 5 L 4 5 z M 6.6992188 7 L 23.300781 7 L 15 13.134766 L 6.6992188 7 z M 5 9.4746094 L 15 16.865234 L 25 9.4746094 L 25 23 L 5 23 L 5 9.4746094 z"></path>
+                </svg>
+            </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
