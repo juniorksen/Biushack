@@ -1,0 +1,72 @@
+---
+
+import Sidebar from '../layouts/Sidebar.astro';
+import Navbar from '../layouts/Navbar.astro';
+
+---
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criptografía</title>
+    <link rel="stylesheet" type="text/css" href="ruta/al/archivo.css">
+</head>
+
+<style>
+    ul.custom-list li::marker {
+            color: #22c55e; /* Color verde de Tailwind (green-500) */
+        }
+</style>
+
+
+<body>
+    <div class="flex h-screen bg-gray-100">
+        <!-- Barra Lateral -->
+        <Sidebar />
+    
+        <!-- Contenido Principal -->
+        <div class="flex flex-col flex-1 overflow-y-auto">
+            <!-- Barra de Navegación (Navbar) -->
+            <Navbar />
+            
+            <div class="relative p-4">
+                <div class="max-w-6xl mx-auto">
+                    <div class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                        <div>
+                            
+                            <a  class="text-indigo-600 hover:text-gray-700 transition duration-500 ease-in-out text-sm">
+                                Lección
+                            </a>
+                            <h1 class="text-gray-900 font-bold text-4xl"> Protesta contra SOPA y PIPA </h1>
+                            <div class="py-5 text-sm font-regular text-gray-900 flex"> </div>
+                            <hr>
+
+                            <p class="text-base leading-8 my-5"> 
+                                El apagón de Wikipedia en inglés fue una medida de protesta en rechazo a las propuestas de ley estadounidenses SOPA y PIPA llevada a cabo el día 18 de enero de 2012.[1]​ Consistió en un bloqueo autoimpuesto impidiendo ingresar al contenido del sitio, y mostrando en cambio una pantalla negra donde se leía «Internet debe seguir siendo libre», ejemplificando que es lo que puede suceder con la censura en internet. A pesar de que fue llamada «apagón», los servidores de Wikipedia no dejaron de funcionar, y el contenido siguió estando disponible si se utilizaba algún mecanismo para saltar el bloqueo.[2]​ La medida comenzó a las 05:00 horas UTC y terminó a la misma hora del día jueves 19 de enero de 2012. Es el primer «corte» que registra Wikipedia tras casi once años ininterrumpidos de servicio en la web.
+                            </p>
+
+                            <p class="text-base leading-8 my-5">
+                                El apagón de Wikipedia formó parte de una serie de protestas protagonizadas por varios sitios web con diferente grado de adhesión. Otros sitios que decidieron dar de baja sus servicios por un día fueron por ejemplo WordPress y Cuevana, mientras que otros como Google y la Fundación Mozilla optaron por incluir en sus páginas avisos de protesta con enlaces donde se podía conseguir más información y contactos de los representantes legislativos. Google por ejemplo puso en su página de Estados Unidos un doodle cubierto por una placa oscura y una leyenda que decía:
+                            </p>
+
+                            
+
+                            <blockquote class="text-md italic leading-8 my-5 p-5 text-indigo-600 font-semibold">
+                                Por favor no censuren la web
+                            </blockquote>
+
+
+
+
+            
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
